@@ -26,6 +26,11 @@ module.exports = {
                 //* webpack go from right to left !!!
                 //* style-loader add styles to head section in html file
                 use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.(png|jpg|jpeg|gif|ico|svg)$/,
+                type: 'asset/resource'
+                //use: ['file-loader']
             }
         ]
     }
