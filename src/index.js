@@ -3,6 +3,8 @@ import Post from "@/Post"
 import json from './assets/json.json'
 import WebpackLogo from './assets/webpack-logo.png'
 import './styles/styles.css'
+import './styles/sass_styles.sass'
+import './styles/scss_styles.scss'
 
 
 const post = new Post('Webpack Post Title', WebpackLogo)
