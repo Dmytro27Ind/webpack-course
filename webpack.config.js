@@ -4,11 +4,11 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-    context: path.resolve(__dirname, 'src'),
+    // context: path.resolve(__dirname, 'src'),
     mode: 'development',
     entry: {
-        main: './index.js',
-        analytics: './analytics.js'
+        main: path.resolve(__dirname,'src/index.js'),
+        analytics: path.resolve(__dirname,'src/analytics.js'),
     },
     output: {
         filename: '[name].[contenthash].js',
@@ -35,17 +35,18 @@ module.exports = {
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: './index.html'
+            template: path.resolve(__dirname,'src/index.html')
         }),
         new CleanWebpackPlugin(),
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: path.resolve(__dirname, 'src/favicon.ico'),
-                    to: path.resolve(__dirname, 'dist')
-                },
-            ],
-        }),
+        //* We use an html-loader so we don't need to copy icons or images to the dist folder.
+        // new CopyWebpackPlugin({
+        //     patterns: [
+        //         {
+        //             from: path.resolve(__dirname, 'src/favicon.ico'),
+        //             to: path.resolve(__dirname, 'dist')
+        //         },
+        //     ],
+        // }),
     ],
     module: {
         rules: [
@@ -64,7 +65,11 @@ module.exports = {
                 test: /\.(ttf|woff|woff2|eot)$/,
                 type: 'asset/resource'
                 // use: ['file-loader']
-            }
+            },
+            {
+                test: /\.html$/,
+                use: ['html-loader']
+            },
         ]
     }
 }
