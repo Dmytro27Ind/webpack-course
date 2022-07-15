@@ -16,7 +16,7 @@ const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin')
 
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = !isDev
-console.log('isDev: ' + isDev)
+// console.log('isDev: ' + isDev)
 
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
     mode: 'development',
     entry: {
         main: path.resolve(__dirname,'src/index.js'),
-        analytics: path.resolve(__dirname,'src/analytics.js'),
+        analytics: path.resolve(__dirname,'src/analytics.ts'),
     },
     output: {
         filename: '[name].[contenthash].js',
@@ -56,6 +56,8 @@ module.exports = {
     devServer: {
         port: 5501
     },
+    //*     For source map in devtool in the browser. For example, it gives links to the original code and styles and not to the bundle
+    devtool: isDev? 'source-map' : undefined,
     plugins: [
         new HTMLWebpackPlugin({
             template: path.resolve(__dirname,'src/index.html'),
@@ -80,6 +82,26 @@ module.exports = {
     ],
     module: {
         rules: [
+            {
+                test: /\.m?js$/,
+                exclude: /node_modules/,
+                use: {
+                  loader: "babel-loader",
+                  options: {
+                    presets: ['@babel/preset-env']
+                  }
+                }
+            },
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                use: {
+                  loader: "babel-loader",
+                  options: {
+                    presets: ['@babel/preset-env', '@babel/preset-typescript']
+                  }
+                }
+            },
             {
                 test: /\.css$/,
                 //* webpack go from right to left !!!
